@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>James Gorman — Portfolio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e12;
+      --surface: #16161d;
+      --surface2: #1e1e28;
+      --border: #2a2a38;
+      --accent: #7c6dfa;
+      --accent2: #e96baf;
+      --text: #e8e8f0;
+      --muted: #8888a8;
+      --radius: 12px;
+      --nav-h: 64px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(14,14,18,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1rem, 5vw, 4rem);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 5vw, 4rem);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h2.section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: calc(var(--nav-h) + 2rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124,109,250,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -5%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(233,107,175,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 0 3px rgba(74,222,128,0.2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.2); }
+      50% { box-shadow: 0 0 0 6px rgba(74,222,128,0.08); }
+    }
+
+    .status-text { font-size: 0.875rem; color: var(--muted); }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 .gradient {
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: #6b5ce7; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+
+    /* ── ABOUT ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .about-text p strong { color: var(--text); }
+
+    .about-cards { display: flex; flex-direction: column; gap: 1rem; }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .info-card:hover { border-color: var(--accent); }
+
+    .info-icon {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      background: rgba(124,109,250,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .info-label { font-size: 0.75rem; color: var(--muted); }
+    .info-value { font-weight: 600; font-size: 0.95rem; }
+
+    /* ── SKILLS ── */
+    #skills .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .skill-group:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .skill-group-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .skill-group:hover .tag { border-color: rgba(124,109,250,0.3); color: var(--text); }
+
+    /* ── EXPERIENCE ── */
+    #experience .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    #experience .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.375rem;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .timeline-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-company {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .timeline-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--surface);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+    }
+
+    .timeline-role {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    /* ── PROJECTS ── */
+    #projects .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    .project-header {
+      padding: 1.5rem 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .project-icon {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-links { display: flex; gap: 0.75rem; }
+
+    .project-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover { color: var(--accent); }
+
+    .project-body { padding: 0 1.5rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+
+    .project-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+
+    /* ── EDUCATION ── */
+    #education .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .edu-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .edu-degree {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-school {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-date { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.75rem; }
+    .edu-desc { color: var(--muted); font-size: 0.875rem; }
+
+    /* ── CERTIFICATIONS ── */
+    #certifications .cert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .cert-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .cert-main {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cert-info { border-right: 1px solid var(--border); padding-right: 1.5rem; }
+
+    .cert-name {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.35rem;
+    }
+
+    .cert-provider {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .cert-date { color: var(--muted); font-size: 0.78rem; }
+
+    .cert-desc {
+      color: var(--muted);
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .cert-skills {
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    @media (max-width: 640px) {
+      .cert-main {
+        grid-template-columns: 1fr;
+      }
+      .cert-info { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+    }
+
+    /* ── BOOKSHELF ── */
+    #bookshelf .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 2.5rem 2rem;
+      justify-items: center;
+    }
+
+    .book {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .book-cover-wrap {
+      width: 128px;
+      height: 192px;
+      border-radius: 3px 6px 6px 3px;
+      overflow: hidden;
+      box-shadow:
+        4px 6px 18px rgba(0,0,0,0.55),
+        -3px 0 6px rgba(0,0,0,0.3),
+        inset -3px 0 6px rgba(0,0,0,0.2);
+      transition: transform 0.35s cubic-bezier(.25,.8,.25,1), box-shadow 0.35s ease;
+      transform-origin: bottom center;
+      flex-shrink: 0;
+    }
+
+    .book:hover .book-cover-wrap {
+      transform: rotate(-9deg) translateY(-14px) scale(1.04);
+      box-shadow:
+        10px 20px 32px rgba(0,0,0,0.6),
+        -3px 0 8px rgba(0,0,0,0.3),
+        inset -3px 0 6px rgba(0,0,0,0.2);
+    }
+
+    .book-cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .book-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text);
+      max-width: 128px;
+      line-height: 1.3;
+    }
+
+    .book-author {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .book-read-date {
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0.1rem;
+    }
+
+    .book-stars {
+      display: flex;
+      gap: 0.1rem;
+      justify-content: center;
+    }
+
+    .book-stars .star {
+      font-size: 0.75rem;
+      color: var(--border);
+      line-height: 1;
+    }
+
+    .book-stars .star.filled {
+      color: #f5a623;
+    }
+
+    .book.active .book-cover-wrap {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    /* ── BOOK REVIEW PANEL ── */
+    .book-review-panel {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
+    }
+
+    .book-review-panel.open {
+      max-height: 600px;
+      opacity: 1;
+    }
+
+    .book-review-inner {
+      padding: 2rem 2.5rem;
+    }
+
+    .book-review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .book-review-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .book-review-author {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 0.15rem;
+    }
+
+    .book-review-close {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.2s, color 0.2s;
+      line-height: 1;
+    }
+
+    .book-review-close:hover { border-color: var(--accent); color: var(--text); }
+
+    .book-review-body p {
+      color: var(--muted);
+      font-size: 0.925rem;
+      line-height: 1.75;
+      margin-bottom: 0.9rem;
+    }
+
+    .book-review-body p:last-child { margin-bottom: 0; }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding-bottom: 6rem;
+    }
+
+    #contact .contact-inner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: clamp(2rem, 5vw, 4rem);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contact .contact-inner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(124,109,250,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    #contact h2 {
+      font-size: clamp(1.75rem, 3vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+    }
+
+    .contact-sub {
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.05rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem clamp(1rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 0.8rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 200;
+      transition: width 0.1s;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+
+      #about .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats { gap: 2rem; }
+
+      #experience .timeline { padding-left: 1.5rem; }
+      .timeline-item::before { left: -1.875rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scroll-progress" id="progress"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">JG</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#bookshelf">Reading</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow">
+    <span class="status-dot"></span>
+    <span class="status-text">Open to new opportunities</span>
+  </div>
+  <h1>
+    Hi, I'm <span class="gradient">James Gorman</span>.<br />
+    I build things<br />for the web.
+  </h1>
+  <p class="hero-sub">
+    Full-stack engineer focused on crafting fast, accessible, and
+    well-designed digital experiences. Turning complex problems into
+    elegant solutions.
+  </p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn btn-primary">View my work</a>
+    <a href="#contact" class="btn btn-ghost">Get in touch</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Years experience</div>
+    </div>
+    <div>
+      <div class="stat-num">30+</div>
+      <div class="stat-label">Projects shipped</div>
+    </div>
+    <div>
+      <div class="stat-num">12</div>
+      <div class="stat-label">Happy clients</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About me</p>
+  <h2 class="section-title">A bit about myself</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm an <strong>enterprise IT delivery leader</strong> with 15+ years of experience
+        building high-performing teams, operating models, portfolio governance systems,
+        and financial controls that accelerate delivery, reduce costs, and align
+        IT strategy to business outcomes.
+      </p>
+      <p>
+        Currently accountable for an <strong>$80M annual IT budget</strong> across a
+        250-person Enterprise Data &amp; Insights organization at Sherwin-Williams —
+        a $23B DJIA component and Fortune 200 company — serving as operational
+        partner to the Chief Digital Officer.
+      </p>
+      <p>
+        I've driven digital transformations across IT, Consulting, SaaS, Manufacturing,
+        and Healthcare environments. I hold a PMP, ITIL, Lean Six Sigma Black Belt,
+        and <strong>5 AWS certifications</strong>, and I'm actively pursuing
+        Director and VP-level leadership opportunities.
+      </p>
+    </div>
+    <div class="about-cards">
+      <div class="info-card">
+        <div class="info-icon">📍</div>
+        <div>
+          <div class="info-label">Location</div>
+          <div class="info-value">Cleveland, OH — Open to relocation</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">💼</div>
+        <div>
+          <div class="info-label">Current role</div>
+          <div class="info-value">Director, Enterprise Data Portfolio Delivery</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🎓</div>
+        <div>
+          <div class="info-label">Education</div>
+          <div class="info-value">MBA · BBA (MIS)</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">📧</div>
+        <div>
+          <div class="info-label">Email</div>
+          <div class="info-value">jmgorman00@gmail.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Technical skills</p>
+  <h2 class="section-title">What I work with</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Frontend</div>
+      <div class="skill-tags">
+        <span class="tag">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Next.js</span>
+        <span class="tag">CSS / Tailwind</span>
+        <span class="tag">Vite</span>
+        <span class="tag">Framer Motion</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Backend</div>
+      <div class="skill-tags">
+        <span class="tag">Node.js</span>
+        <span class="tag">Python</span>
+        <span class="tag">Go</span>
+        <span class="tag">GraphQL</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Infrastructure</div>
+      <div class="skill-tags">
+        <span class="tag">AWS</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Kubernetes</span>
+        <span class="tag">Terraform</span>
+        <span class="tag">CI/CD</span>
+        <span class="tag">Redis</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Tooling &amp; Practice</div>
+      <div class="skill-tags">
+        <span class="tag">Git</span>
+        <span class="tag">Testing</span>
+        <span class="tag">Agile</span>
+        <span class="tag">System Design</span>
+        <span class="tag">Code Review</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Work history</p>
+  <h2 class="section-title">Where I've worked</h2>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-company">Sherwin-Williams</span>
+        <span class="timeline-date">March 2024 — Present</span>
+      </div>
+      <div class="timeline-role">Director, Enterprise Data Portfolio Delivery</div>
+      <p class="timeline-desc">
+        Own technical delivery, financial management, and operational excellence for an $80M / 250-person Enterprise Data &amp; Insights organization spanning all $23B business segments. Report to SVP Data; serve as operational partner to the Chief Digital Officer.
+        Established enterprise data portfolio governance and operating model enabling $80M in annual investment decisions. Delivered 138 data projects in 2025. Turned a $3M over-budget position in Q1 into $2.3M under budget by year-end. Improved incident MTTR by 63% and deployed a resource planning model that recovered 21K hours — equivalent to $1.6M in productivity gains.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">Portfolio Governance</span>
+        <span class="tag">SAFe / Agile</span>
+        <span class="tag">Jira</span>
+        <span class="tag">ServiceNow</span>
+        <span class="tag">AWS</span>
+        <span class="tag">Medallion Architecture</span>
+        <span class="tag">$80M P&amp;L</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-company">Sherwin-Williams</span>
+        <span class="timeline-date">March 2020 — March 2024</span>
+      </div>
+      <div class="timeline-role">Sr. Digital Delivery Manager</div>
+      <p class="timeline-desc">
+        Owned digital transformation and IT delivery for the $7B industrial coatings portfolio. Managed a cross-functional distributed team of 37 members with a $10M IT budget across 6 divisions in 5 global regions.
+        Led enterprise Adobe Experience Manager CMS implementation and built the segment's first e-commerce application, opening a channel into the $172M powder coatings market. Deployed infrastructure to 16 countries and 100+ locales. Agile delivery models drove 55% faster releases with 96%+ on-time delivery.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">Digital Transformation</span>
+        <span class="tag">Adobe Experience Manager</span>
+        <span class="tag">E-Commerce</span>
+        <span class="tag">Agile</span>
+        <span class="tag">Vendor Management</span>
+        <span class="tag">$10M Budget</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-company">BrightEdge</span>
+        <span class="timeline-date">April 2019 — March 2020</span>
+      </div>
+      <div class="timeline-role">Technical Program Manager</div>
+      <p class="timeline-desc">
+        Led the automation infrastructure program managing 550+ software implementations across $25M in customer accounts. Reported to CTO/Co-founder.
+        Improved integration rate from 48% to 83% and customer satisfaction from 32% to 73% YoY. Cut average integration timeline from 42 to 33 days and abandonment from 31% to 12%, driving a 20% increase in customer retention and an 85% head-to-head win rate.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">Technical Program Management</span>
+        <span class="tag">Process Improvement</span>
+        <span class="tag">SaaS Integrations</span>
+        <span class="tag">Customer Success</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-company">Covalent Health</span>
+        <span class="timeline-date">September 2015 — April 2019</span>
+      </div>
+      <div class="timeline-role">Operations Program Manager</div>
+      <p class="timeline-desc">
+        Managed a private equity project portfolio focused on M&amp;A integration and operational turnarounds, leading distributed teams of 5–30 members. Reported to COO.
+        Facilitated operational integration of three acquisitions adding 1,000+ employees, led the company's first government contract, and drove a Kanban supply system overhaul that reduced start-of-shift time by 40%+.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">M&amp;A Integration</span>
+        <span class="tag">Operations</span>
+        <span class="tag">Lean / Kanban</span>
+        <span class="tag">Private Equity</span>
+        <span class="tag">Healthcare</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Side projects</p>
+  <h2 class="section-title">Things I've built</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon" style="background:rgba(124,109,250,0.15)">🚀</div>
+        <div class="project-links">
+          <a href="#" class="project-link">GitHub ↗</a>
+          <a href="#" class="project-link">Live ↗</a>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Deployboard</div>
+        <p class="project-desc">
+          A lightweight self-hosted deployment dashboard that aggregates
+          status from GitHub Actions, Vercel, and AWS in a single view.
+        </p>
+        <div class="skill-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon" style="background:rgba(233,107,175,0.15)">🧠</div>
+        <div class="project-links">
+          <a href="#" class="project-link">GitHub ↗</a>
+          <a href="#" class="project-link">Live ↗</a>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Recall</div>
+        <p class="project-desc">
+          A spaced-repetition flashcard CLI tool with an adaptive scheduling
+          algorithm. Syncs across machines via a tiny cloud backend.
+        </p>
+        <div class="skill-tags">
+          <span class="tag">Go</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">REST</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon" style="background:rgba(74,222,128,0.12)">📊</div>
+        <div class="project-links">
+          <a href="#" class="project-link">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-name">Metrics Kit</div>
+        <p class="project-desc">
+          An open-source collection of React hooks and components for building
+          real-time dashboards. 800+ GitHub stars.
+        </p>
+        <div class="skill-tags">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">WebSockets</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">Education</p>
+  <h2 class="section-title">Academic background</h2>
+  <div class="edu-grid">
+
+    <div class="edu-card">
+      <div class="edu-degree">Master of Business Administration (MBA)</div>
+      <div class="edu-school">University of Phoenix</div>
+      <div class="edu-date">March 2013</div>
+      <p class="edu-desc">Business Management concentration.</p>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-degree">Bachelor of Business Administration (BBA)</div>
+      <div class="edu-school">Ohio University</div>
+      <div class="edu-date">November 2007</div>
+      <p class="edu-desc">Management Information Systems concentration.</p>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-degree">Executive Management Certificate</div>
+      <div class="edu-school">Case Western Reserve University</div>
+      <div class="edu-date">April 2023</div>
+      <p class="edu-desc">Leadership and executive management program.</p>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-degree">Lean Six Sigma Black Belt</div>
+      <div class="edu-school">Villanova University</div>
+      <div class="edu-date">June 2016</div>
+      <p class="edu-desc">Master Certificate in process improvement and operational excellence.</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <p class="section-label">Certifications</p>
+  <h2 class="section-title">Professional credentials</h2>
+  <div class="cert-list">
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">Project Management Professional (PMP)®</div>
+          <div class="cert-provider">Project Management Institute</div>
+          <div class="cert-date">January 2018 &nbsp;·&nbsp; ID# 2147133</div>
+        </div>
+        <div class="cert-desc">
+          Earners of this globally-recognized certification have demonstrated extensive knowledge and mastery of project management concepts applicable across virtually any industry and methodology. Credential holders can initiate, plan, execute, monitor and control, and close a project — speaking the universal language of project management. ISO 17024 &amp; ISO 9001 accredited.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Project Management</span>
+        <span class="tag">Risk Management</span>
+        <span class="tag">Scope Management</span>
+        <span class="tag">Communications Management</span>
+        <span class="tag">Quality Management</span>
+        <span class="tag">Benefit Analysis</span>
+        <span class="tag">Project Planning</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">IT Information Library (ITIL®) Foundation</div>
+          <div class="cert-provider">AXELOS / PeopleCert</div>
+          <div class="cert-date">October 2020</div>
+        </div>
+        <div class="cert-desc">
+          Demonstrates understanding of the key concepts of IT and digital service delivery, including the guiding principles and core practices of ITIL® 4 for IT service management (ITSM). Earners can align IT operations with business objectives, control IT costs, improve service quality, and apply a structured approach to continual service improvement.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">IT Service Management</span>
+        <span class="tag">ITSM</span>
+        <span class="tag">Service Design</span>
+        <span class="tag">Continual Improvement</span>
+        <span class="tag">IT Governance</span>
+        <span class="tag">Service Delivery</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">Certified ScrumMaster® (CSM®)</div>
+          <div class="cert-provider">Scrum Alliance</div>
+          <div class="cert-date">October 2020</div>
+        </div>
+        <div class="cert-desc">
+          Demonstrates the ability to help teams use the Scrum framework effectively and foster productive working environments. Earners guide teams to understand Scrum values, principles, and practices; remove barriers impacting team progress; and serve as facilitator, change agent, and transformation catalyst — providing Scrum Master services to the Product Owner, Development Team, and broader organization.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Scrum Framework</span>
+        <span class="tag">Agile</span>
+        <span class="tag">Team Facilitation</span>
+        <span class="tag">Sprint Planning</span>
+        <span class="tag">Retrospectives</span>
+        <span class="tag">Impediment Management</span>
+        <span class="tag">Coaching</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">Certified SAFe® Agilist (SA)</div>
+          <div class="cert-provider">Scaled Agile, Inc.</div>
+          <div class="cert-date">June 2021</div>
+        </div>
+        <div class="cert-desc">
+          A SAFe® enterprise leadership professional qualified to lead and sustain Lean-Agile transformations at scale. Key areas of competency include applying Lean-Agile mindset and principles, releasing value through Agile Release Trains (ARTs), PI Planning, and building an Agile portfolio to align strategy and execution. Practiced in over 70% of the US Fortune 100.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">SAFe Framework</span>
+        <span class="tag">Lean-Agile</span>
+        <span class="tag">Agile Release Trains</span>
+        <span class="tag">PI Planning</span>
+        <span class="tag">Portfolio Management</span>
+        <span class="tag">Business Agility</span>
+        <span class="tag">Enterprise Delivery</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">Certified Scrum Product Owner® (CSPO®)</div>
+          <div class="cert-provider">Scrum Alliance</div>
+          <div class="cert-date">November 2021</div>
+        </div>
+        <div class="cert-desc">
+          Demonstrates the knowledge and skills to serve as an effective Product Owner within a Scrum team. Earners can manage and prioritize the product backlog, translate customer and stakeholder needs into actionable user stories, define a clear product vision, and maximize product value delivered through iterative releases.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Product Backlog Management</span>
+        <span class="tag">User Stories</span>
+        <span class="tag">Value Prioritization</span>
+        <span class="tag">Stakeholder Alignment</span>
+        <span class="tag">Release Planning</span>
+        <span class="tag">Product Vision</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">AWS Certified Cloud Practitioner</div>
+          <div class="cert-provider">Amazon Web Services</div>
+          <div class="cert-date">April 2022</div>
+        </div>
+        <div class="cert-desc">
+          Earners have a fundamental understanding of IT services and their uses in the AWS Cloud, demonstrating cloud fluency and foundational AWS knowledge. Badge holders can identify essential AWS services necessary for cloud-focused projects and articulate the financial, operational, and security benefits of AWS Cloud adoption.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">AWS Cloud</span>
+        <span class="tag">Cloud Computing</span>
+        <span class="tag">Core AWS Services</span>
+        <span class="tag">Cloud Economics</span>
+        <span class="tag">Security Fundamentals</span>
+        <span class="tag">Cloud Adoption</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">AWS Certified Solutions Architect — Associate</div>
+          <div class="cert-provider">Amazon Web Services</div>
+          <div class="cert-date">May 2023</div>
+        </div>
+        <div class="cert-desc">
+          Earners have a comprehensive understanding of AWS services and technologies with demonstrated ability to build secure, robust, and scalable solutions using architectural design principles based on customer requirements. They can architect high-availability, fault-tolerant systems and optimize AWS infrastructure for cost and performance.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Cloud Architecture</span>
+        <span class="tag">Scalable Design</span>
+        <span class="tag">High Availability</span>
+        <span class="tag">Security Architecture</span>
+        <span class="tag">Network Design</span>
+        <span class="tag">AWS Services</span>
+        <span class="tag">Cost Optimization</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">AWS Certified AI Practitioner</div>
+          <div class="cert-provider">Amazon Web Services</div>
+          <div class="cert-date">February 2025</div>
+        </div>
+        <div class="cert-desc">
+          Earners understand AI, ML, and generative AI concepts, methods, and strategies in general and on AWS. They can determine the correct types of AI/ML technologies to apply to specific use cases, understand foundation models and prompt engineering, and apply AI technologies responsibly. Also familiar with AWS core services, pricing models, and shared responsibility for security and compliance.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Artificial Intelligence</span>
+        <span class="tag">Machine Learning</span>
+        <span class="tag">Generative AI</span>
+        <span class="tag">Foundation Models</span>
+        <span class="tag">Responsible AI</span>
+        <span class="tag">AWS AI Services</span>
+        <span class="tag">Prompt Engineering</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">AWS Certified Machine Learning Engineer — Associate</div>
+          <div class="cert-provider">Amazon Web Services</div>
+          <div class="cert-date">April 2025</div>
+        </div>
+        <div class="cert-desc">
+          Earners have knowledge and skills in developing, deploying, maintaining, and monitoring ML solutions to meet AI/ML objectives. They can ingest, transform, validate, and prepare data for ML modeling; implement and operationalize ML workloads in production; select modeling approaches; analyze model performance; and secure ML systems and resources.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Applied Machine Learning</span>
+        <span class="tag">MLOps</span>
+        <span class="tag">Data Preprocessing</span>
+        <span class="tag">Model Deployment</span>
+        <span class="tag">Deep Learning</span>
+        <span class="tag">Natural Language Processing</span>
+        <span class="tag">AI</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">AWS Certified Data Engineer — Associate</div>
+          <div class="cert-provider">Amazon Web Services</div>
+          <div class="cert-date">June 2025</div>
+        </div>
+        <div class="cert-desc">
+          Earners have an in-depth understanding of how to use AWS services to implement data pipelines and monitor, troubleshoot, and optimize cost and performance issues in accordance with best practices. They demonstrate expertise across data ingestion, transformation, modeling, security, governance, privacy, schema design, and optimal data store selection.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Data Pipelines</span>
+        <span class="tag">Data Ingestion</span>
+        <span class="tag">Data Transformation</span>
+        <span class="tag">Data Storage</span>
+        <span class="tag">Data Security</span>
+        <span class="tag">Data Management</span>
+        <span class="tag">AWS</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-main">
+        <div class="cert-info">
+          <div class="cert-name">Microsoft Certified: Power BI Data Analyst Associate</div>
+          <div class="cert-provider">Microsoft</div>
+          <div class="cert-date">December 2025</div>
+        </div>
+        <div class="cert-desc">
+          Earners can enable businesses to maximize the value of their data assets using Microsoft Power BI. They demonstrate methods and best practices for modeling, visualizing, and analyzing data — delivering actionable insights through compelling dashboards, enabling self-service analytics, and working closely with business stakeholders to identify requirements and translate data into meaningful business value.
+        </div>
+      </div>
+      <div class="cert-skills">
+        <span class="tag">Data Modeling</span>
+        <span class="tag">DAX</span>
+        <span class="tag">Power Query</span>
+        <span class="tag">Data Visualization</span>
+        <span class="tag">Business Intelligence</span>
+        <span class="tag">Star Schema</span>
+        <span class="tag">Dashboard Design</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BOOKSHELF -->
+<section id="bookshelf">
+  <p class="section-label">Bookshelf</p>
+  <h2 class="section-title">What I'm reading</h2>
+  <div class="books-grid">
+
+    <div class="book" data-book="good-to-great">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=7io-2eqxSS0C&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="Good to Great by Jim Collins" loading="lazy" />
+      </div>
+      <div class="book-title">Good to Great</div>
+      <div class="book-author">Jim Collins</div>
+      <div class="book-read-date">Read: January 2023</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="atomic-habits">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=XfFvDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="Atomic Habits by James Clear" loading="lazy" />
+      </div>
+      <div class="book-title">Atomic Habits</div>
+      <div class="book-author">James Clear</div>
+      <div class="book-read-date">Read: March 2024</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="lean-startup">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=tvfyz-4JILwC&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="The Lean Startup by Eric Ries" loading="lazy" />
+      </div>
+      <div class="book-title">The Lean Startup</div>
+      <div class="book-author">Eric Ries</div>
+      <div class="book-read-date">Read: August 2022</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="thinking-fast-slow">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=TA7Q27RWlj0C&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="Thinking, Fast and Slow by Daniel Kahneman" loading="lazy" />
+      </div>
+      <div class="book-title">Thinking, Fast and Slow</div>
+      <div class="book-author">Daniel Kahneman</div>
+      <div class="book-read-date">Read: November 2021</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="zero-to-one">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=POOJDQAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="Zero to One by Peter Thiel" loading="lazy" />
+      </div>
+      <div class="book-title">Zero to One</div>
+      <div class="book-author">Peter Thiel</div>
+      <div class="book-read-date">Read: June 2023</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="hard-thing">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=j9ucCwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="The Hard Thing About Hard Things by Ben Horowitz" loading="lazy" />
+      </div>
+      <div class="book-title">The Hard Thing About Hard Things</div>
+      <div class="book-author">Ben Horowitz</div>
+      <div class="book-read-date">Read: February 2024</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="how-to-win-friends">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=D7TznQEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="How to Win Friends and Influence People by Dale Carnegie" loading="lazy" />
+      </div>
+      <div class="book-title">How to Win Friends and Influence People</div>
+      <div class="book-author">Dale Carnegie</div>
+      <div class="book-read-date">Read: April 2021</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="winning">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=g7PG7vwBNYoC&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="Winning by Jack Welch" loading="lazy" />
+      </div>
+      <div class="book-title">Winning</div>
+      <div class="book-author">Jack Welch</div>
+      <div class="book-read-date">Read: September 2022</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="high-output-management">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=4G_aCwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="High Output Management by Andrew Grove" loading="lazy" />
+      </div>
+      <div class="book-title">High Output Management</div>
+      <div class="book-author">Andrew Grove</div>
+      <div class="book-read-date">Read: July 2023</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+      </div>
+    </div>
+
+    <div class="book" data-book="influence">
+      <div class="book-cover-wrap">
+        <img src="https://books.google.com/books/content?id=4uf8DwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+             alt="Influence by Robert Cialdini" loading="lazy" />
+      </div>
+      <div class="book-title">Influence</div>
+      <div class="book-author">Robert Cialdini</div>
+      <div class="book-read-date">Read: January 2024</div>
+      <div class="book-stars">
+        <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-label" style="margin-bottom:1rem">Get in touch</p>
+    <h2>Let's work together</h2>
+    <p class="contact-sub">
+      I'm currently open to full-time roles and interesting freelance
+      projects. Drop me a line — I read every message.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:james@example.com" class="btn btn-primary">
+        ✉ Send an email
+      </a>
+      <a href="#" class="social-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.37.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.004 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="#" class="social-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.44-2.14 2.93v5.68H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+      <a href="#" class="social-link">
+        📄 Resume PDF
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 James Gorman. Built with HTML &amp; CSS.</span>
+  <span style="color: var(--border)">Designed with ♥</span>
+</footer>
+
+<script>
+  // Scroll progress bar
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    progress.style.width = (pct * 100) + '%';
+  });
+
+  // Intersection observer — fade in sections
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    }),
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll(
+    '.skill-group, .timeline-item, .project-card, .edu-card, .info-card'
+  ).forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.2s';
+    observer.observe(el);
+  });
+
+  // ── BOOKSHELF REVIEW PANEL ──
+  const REVIEWS = {
+    'good-to-great': {
+      title: 'Good to Great',
+      author: 'Jim Collins',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vehicula orci ac risus fermentum, vel tincidunt felis facilisis. Donec euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, nec aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+               <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur pretium tincidunt lacus. Nulla gravida orci a odio, et tempus feugiat. Nullam varius convallis turpis, sed commodo augue iaculis a. Maecenas aliquet mauris at nisi imperdiet, vel blandit turpis aliquet.</p>`
+    },
+    'atomic-habits': {
+      title: 'Atomic Habits',
+      author: 'James Clear',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod diam at lectus interdum, ut scelerisque nisi dapibus. Integer faucibus, nisi at tincidunt pharetra, neque quam ornare enim, in feugiat metus libero ac lorem. Morbi vulputate pharetra lorem, a sagittis nunc finibus vel. Cras commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+               <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>`
+    },
+    'lean-startup': {
+      title: 'The Lean Startup',
+      author: 'Eric Ries',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Donec sed odio dui. Cras mattis consectetur purus sit amet fermentum. Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod.</p>
+               <p>Curabitur blandit tempus porttitor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>`
+    },
+    'thinking-fast-slow': {
+      title: 'Thinking, Fast and Slow',
+      author: 'Daniel Kahneman',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus mollis interdum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+               <p>Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum.</p>`
+    },
+    'zero-to-one': {
+      title: 'Zero to One',
+      author: 'Peter Thiel',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit non mi porta gravida at eget metus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+               <p>Etiam porta sem malesuada magna mollis euismod. Nulla vitae elit libero, a pharetra augue. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo.</p>`
+    },
+    'hard-thing': {
+      title: 'The Hard Thing About Hard Things',
+      author: 'Ben Horowitz',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+               <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>`
+    },
+    'how-to-win-friends': {
+      title: 'How to Win Friends and Influence People',
+      author: 'Dale Carnegie',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vehicula sapien vel ante gravida, vel tincidunt felis facilisis. Sed euismod augue vitae libero interdum, ut volutpat lectus finibus. Quisque posuere erat a ante venenatis dapibus posuere velit aliquet. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+               <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean lacinia bibendum nulla sed consectetur. Donec ullamcorper nulla non metus auctor fringilla. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>`
+    },
+    'winning': {
+      title: 'Winning',
+      author: 'Jack Welch',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+               <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Curabitur blandit tempus porttitor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Etiam porta sem malesuada magna mollis euismod. Nulla vitae elit libero, a pharetra augue.</p>`
+    },
+    'high-output-management': {
+      title: 'High Output Management',
+      author: 'Andrew Grove',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+               <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>`
+    },
+    'influence': {
+      title: 'Influence: The Psychology of Persuasion',
+      author: 'Robert Cialdini',
+      review: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Curabitur blandit tempus porttitor.</p>
+               <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>`
+    }
+  };
+
+  const booksGrid = document.querySelector('.books-grid');
+  const books = document.querySelectorAll('.book[data-book]');
+  let activeBook = null;
+
+  // Build the panel element once
+  const panel = document.createElement('div');
+  panel.className = 'book-review-panel';
+  panel.innerHTML = `
+    <div class="book-review-inner">
+      <div class="book-review-header">
+        <div>
+          <div class="book-review-title"></div>
+          <div class="book-review-author"></div>
+        </div>
+        <button class="book-review-close" aria-label="Close review">✕</button>
+      </div>
+      <div class="book-review-body"></div>
+    </div>`;
+
+  function getRowBooks(book) {
+    const top = book.getBoundingClientRect().top;
+    return Array.from(books).filter(b => Math.abs(b.getBoundingClientRect().top - top) < 10);
+  }
+
+  function openPanel(book) {
+    const key = book.dataset.book;
+    const data = REVIEWS[key];
+    panel.querySelector('.book-review-title').textContent = data.title;
+    panel.querySelector('.book-review-author').textContent = data.author;
+    panel.querySelector('.book-review-body').innerHTML = data.review;
+
+    const rowBooks = getRowBooks(book);
+    const lastInRow = rowBooks[rowBooks.length - 1];
+    lastInRow.after(panel);
+
+    books.forEach(b => b.classList.remove('active'));
+    book.classList.add('active');
+    activeBook = book;
+
+    // Force reflow then animate
+    panel.getBoundingClientRect();
+    panel.classList.add('open');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    books.forEach(b => b.classList.remove('active'));
+    activeBook = null;
+    setTimeout(() => { if (panel.parentNode) panel.parentNode.removeChild(panel); }, 400);
+  }
+
+  books.forEach(book => {
+    book.addEventListener('click', () => {
+      if (activeBook === book) { closePanel(); return; }
+      // If panel is open on a different book, swap instantly then reopen
+      if (activeBook) {
+        panel.classList.remove('open');
+        setTimeout(() => { openPanel(book); }, 50);
+      } else {
+        openPanel(book);
+      }
+    });
+  });
+
+  panel.querySelector('.book-review-close').addEventListener('click', closePanel);
+</script>
+</body>
+</html>
