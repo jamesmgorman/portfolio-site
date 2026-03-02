@@ -125,6 +125,8 @@
       height: 600px;
       background: radial-gradient(circle, rgba(124,109,250,0.15) 0%, transparent 70%);
       pointer-events: none;
+      -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+      mask-image: linear-gradient(to right, black 50%, transparent 100%);
     }
 
     #hero::after {
@@ -138,27 +140,25 @@
       pointer-events: none;
     }
 
-    .hero-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
+    .hero-avatar {
+      position: absolute;
+      top: 0;
+      right: -80px;
+      width: 672px;
+      height: 816px;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 1;
+      z-index: 0;
+      -webkit-mask-image: linear-gradient(to left, black 30%, transparent 80%);
+      mask-image: linear-gradient(to left, black 30%, transparent 80%);
+      pointer-events: none;
     }
 
-    .status-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #4ade80;
-      box-shadow: 0 0 0 3px rgba(74,222,128,0.2);
-      animation: pulse 2s infinite;
+    #hero > *:not(.hero-avatar) {
+      position: relative;
+      z-index: 1;
     }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.2); }
-      50% { box-shadow: 0 0 0 6px rgba(74,222,128,0.08); }
-    }
-
-    .status-text { font-size: 0.875rem; color: var(--muted); }
 
     h1 {
       font-size: clamp(2.5rem, 6vw, 5rem);
@@ -173,6 +173,83 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+    }
+
+    .rotating-words {
+      display: inline-block;
+      position: relative;
+      vertical-align: baseline;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+    }
+
+    .rotating-words span {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      transform: rotateX(90deg) translateY(-50%);
+      transform-origin: top center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      white-space: nowrap;
+    }
+
+    .rotating-words span.active {
+      position: relative;
+      opacity: 1;
+      transform: rotateX(0deg) translateY(0);
+    }
+
+    .rotating-words span.exit {
+      opacity: 0;
+      transform: rotateX(-90deg) translateY(50%);
+      transform-origin: bottom center;
+    }
+
+    .rotating-words span::after {
+      content: '.';
+      -webkit-text-fill-color: var(--text);
+      background: none;
+      letter-spacing: 0;
+    }
+
+    .deliver-line {
+      font-size: 0.85em;
+    }
+
+    @keyframes underline-draw {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0% 0 0); }
+    }
+
+    .rotating-words span.final-word::before {
+      content: '';
+      position: absolute;
+      left: -3px;
+      bottom: -0.04em;
+      width: calc(100% + 6px);
+      height: 0.18em;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M1,10 C6,6 18,13 34,8 C50,3 62,12 80,8 C98,4 110,12 128,7 C146,2 160,11 176,7 C184,5 192,9 199,8' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      opacity: 0.7;
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .rotating-words span.final-word.underline-drawn::before {
+      animation: underline-draw 0.8s ease forwards;
     }
 
     .hero-sub {
@@ -276,8 +353,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
       flex-shrink: 0;
+      color: var(--accent);
     }
 
     .info-label { font-size: 0.75rem; color: var(--muted); }
@@ -563,9 +640,58 @@
     }
 
     /* ── BOOKSHELF ── */
+    .bookshelf-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .bookshelf-header .section-title {
+      margin-bottom: 3rem;
+    }
+
+    .sort-toggles {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .sort-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .sort-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .sort-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .sort-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
     #bookshelf .books-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 2.5rem 2rem;
       justify-items: center;
     }
@@ -575,28 +701,23 @@
       flex-direction: column;
       align-items: center;
       gap: 0.6rem;
+      transition: transform 0.25s ease;
+    }
+
+    .book:hover {
+      transform: scale(1.1);
     }
 
     .book-cover-wrap {
-      width: 128px;
-      height: 192px;
+      width: 176px;
+      height: 264px;
       border-radius: 3px 6px 6px 3px;
       overflow: hidden;
       box-shadow:
         4px 6px 18px rgba(0,0,0,0.55),
         -3px 0 6px rgba(0,0,0,0.3),
         inset -3px 0 6px rgba(0,0,0,0.2);
-      transition: transform 0.35s cubic-bezier(.25,.8,.25,1), box-shadow 0.35s ease;
-      transform-origin: bottom center;
       flex-shrink: 0;
-    }
-
-    .book:hover .book-cover-wrap {
-      transform: rotate(-9deg) translateY(-14px) scale(1.04);
-      box-shadow:
-        10px 20px 32px rgba(0,0,0,0.6),
-        -3px 0 8px rgba(0,0,0,0.3),
-        inset -3px 0 6px rgba(0,0,0,0.2);
     }
 
     .book-cover-wrap img {
@@ -611,7 +732,7 @@
       font-weight: 600;
       text-align: center;
       color: var(--text);
-      max-width: 128px;
+      max-width: 176px;
       line-height: 1.3;
     }
 
@@ -784,6 +905,99 @@
 
     .social-link:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* ── CONTACT FORM ── */
+    .contact-form {
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      text-align: left;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group.full { margin-bottom: 0; }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .form-input,
+    .form-textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,109,250,0.15);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: #44445a; }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    .form-submit-wrap {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .form-feedback {
+      margin-top: 1.25rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      display: none;
+      text-align: center;
+    }
+
+    .form-feedback.visible { display: block; }
+
+    .form-success {
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      color: #4ade80;
+    }
+
+    .form-error {
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.3);
+      color: #f87171;
+    }
+
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
@@ -839,7 +1053,7 @@
 
 <!-- NAV -->
 <nav>
-  <span class="nav-logo">JG</span>
+  <span class="nav-logo">Gorman</span>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -853,22 +1067,28 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-eyebrow">
-    <span class="status-dot"></span>
-    <span class="status-text">Open to new opportunities</span>
-  </div>
   <h1>
-    Hi, I'm <span class="gradient">James Gorman</span>.<br />
-    I build things<br />for the web.
+    Hi, I'm <span class="gradient">James Go<span style="letter-spacing:0.01em">r</span>man</span>.<br />
+    <span class="deliver-line">I deliver <span class="rotating-words" id="rotating-words">
+      <span class="active">business value</span>
+      <span>technology experiences</span>
+      <span>operational efficiencies</span>
+      <span>process improvements</span>
+      <span>financial controls</span>
+      <span>measurable outcomes</span>
+      <span class="final-word">results</span>
+    </span></span>
   </h1>
   <p class="hero-sub">
-    Full-stack engineer focused on crafting fast, accessible, and
-    well-designed digital experiences. Turning complex problems into
-    elegant solutions.
+    Enterprise IT delivery leader with 15+ years' experience building teams,
+    operating models, portfolio governance systems, and financial controls that
+    turn departments and organizations into high-performing delivery engines by
+    accelerating deliverables, reducing costs, and aligning IT strategy to
+    business outcomes.
   </p>
   <div class="hero-actions">
     <a href="#projects" class="btn btn-primary">View my work</a>
-    <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    <a href="#contact" class="btn btn-ghost">Let's connect</a>
   </div>
   <div class="hero-stats">
     <div>
@@ -915,28 +1135,36 @@
     </div>
     <div class="about-cards">
       <div class="info-card">
-        <div class="info-icon">📍</div>
+        <div class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
         <div>
           <div class="info-label">Location</div>
           <div class="info-value">Cleveland, OH — Open to relocation</div>
         </div>
       </div>
       <div class="info-card">
-        <div class="info-icon">💼</div>
+        <div class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
         <div>
           <div class="info-label">Current role</div>
           <div class="info-value">Director, Enterprise Data Portfolio Delivery</div>
         </div>
       </div>
       <div class="info-card">
-        <div class="info-icon">🎓</div>
+        <div class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
         <div>
           <div class="info-label">Education</div>
           <div class="info-value">MBA · BBA (MIS)</div>
         </div>
       </div>
       <div class="info-card">
-        <div class="info-icon">📧</div>
+        <div class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
         <div>
           <div class="info-label">Email</div>
           <div class="info-value">jmgorman00@gmail.com</div>
@@ -948,62 +1176,9 @@
 
 <div class="divider"></div>
 
-<!-- SKILLS -->
-<section id="skills">
-  <p class="section-label">Technical skills</p>
-  <h2 class="section-title">What I work with</h2>
-  <div class="skills-grid">
-    <div class="skill-group">
-      <div class="skill-group-title">Frontend</div>
-      <div class="skill-tags">
-        <span class="tag">React</span>
-        <span class="tag">TypeScript</span>
-        <span class="tag">Next.js</span>
-        <span class="tag">CSS / Tailwind</span>
-        <span class="tag">Vite</span>
-        <span class="tag">Framer Motion</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Backend</div>
-      <div class="skill-tags">
-        <span class="tag">Node.js</span>
-        <span class="tag">Python</span>
-        <span class="tag">Go</span>
-        <span class="tag">GraphQL</span>
-        <span class="tag">REST APIs</span>
-        <span class="tag">PostgreSQL</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Infrastructure</div>
-      <div class="skill-tags">
-        <span class="tag">AWS</span>
-        <span class="tag">Docker</span>
-        <span class="tag">Kubernetes</span>
-        <span class="tag">Terraform</span>
-        <span class="tag">CI/CD</span>
-        <span class="tag">Redis</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Tooling &amp; Practice</div>
-      <div class="skill-tags">
-        <span class="tag">Git</span>
-        <span class="tag">Testing</span>
-        <span class="tag">Agile</span>
-        <span class="tag">System Design</span>
-        <span class="tag">Code Review</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
 <!-- EXPERIENCE -->
 <section id="experience">
-  <p class="section-label">Work history</p>
+  <p class="section-label">Work experience</p>
   <h2 class="section-title">Where I've worked</h2>
   <div class="timeline">
 
@@ -1090,9 +1265,62 @@
 
 <div class="divider"></div>
 
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Technical skills</p>
+  <h2 class="section-title">What I work with</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Frontend</div>
+      <div class="skill-tags">
+        <span class="tag">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Next.js</span>
+        <span class="tag">CSS / Tailwind</span>
+        <span class="tag">Vite</span>
+        <span class="tag">Framer Motion</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Backend</div>
+      <div class="skill-tags">
+        <span class="tag">Node.js</span>
+        <span class="tag">Python</span>
+        <span class="tag">Go</span>
+        <span class="tag">GraphQL</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Infrastructure</div>
+      <div class="skill-tags">
+        <span class="tag">AWS</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Kubernetes</span>
+        <span class="tag">Terraform</span>
+        <span class="tag">CI/CD</span>
+        <span class="tag">Redis</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Tooling &amp; Practice</div>
+      <div class="skill-tags">
+        <span class="tag">Git</span>
+        <span class="tag">Testing</span>
+        <span class="tag">Agile</span>
+        <span class="tag">System Design</span>
+        <span class="tag">Code Review</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- PROJECTS -->
 <section id="projects">
-  <p class="section-label">Side projects</p>
+  <p class="section-label">work & projects</p>
   <h2 class="section-title">Things I've built</h2>
   <div class="projects-grid">
 
@@ -1458,12 +1686,20 @@
 <!-- BOOKSHELF -->
 <section id="bookshelf">
   <p class="section-label">Bookshelf</p>
-  <h2 class="section-title">What I'm reading</h2>
+  <div class="bookshelf-header">
+    <h2 class="section-title">What I'm reading</h2>
+    <div class="sort-toggles">
+      <span class="sort-label">Sort:</span>
+      <button class="sort-btn active" data-sort="date">Date</button>
+      <button class="sort-btn" data-sort="title">Title</button>
+      <button class="sort-btn" data-sort="author">Author</button>
+    </div>
+  </div>
   <div class="books-grid">
 
-    <div class="book" data-book="good-to-great">
+    <div class="book" data-book="good-to-great" data-date="2023-01">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=7io-2eqxSS0C&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=7io-2eqxSS0C&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="Good to Great by Jim Collins" loading="lazy" />
       </div>
       <div class="book-title">Good to Great</div>
@@ -1474,9 +1710,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="atomic-habits">
+    <div class="book" data-book="atomic-habits" data-date="2024-03">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=XfFvDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=XfFvDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="Atomic Habits by James Clear" loading="lazy" />
       </div>
       <div class="book-title">Atomic Habits</div>
@@ -1487,9 +1723,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="lean-startup">
+    <div class="book" data-book="lean-startup" data-date="2022-08">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=tvfyz-4JILwC&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=tvfyz-4JILwC&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="The Lean Startup by Eric Ries" loading="lazy" />
       </div>
       <div class="book-title">The Lean Startup</div>
@@ -1500,9 +1736,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="thinking-fast-slow">
+    <div class="book" data-book="thinking-fast-slow" data-date="2021-11">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=TA7Q27RWlj0C&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=TA7Q27RWlj0C&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="Thinking, Fast and Slow by Daniel Kahneman" loading="lazy" />
       </div>
       <div class="book-title">Thinking, Fast and Slow</div>
@@ -1513,9 +1749,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="zero-to-one">
+    <div class="book" data-book="zero-to-one" data-date="2023-06">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=POOJDQAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=POOJDQAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="Zero to One by Peter Thiel" loading="lazy" />
       </div>
       <div class="book-title">Zero to One</div>
@@ -1526,9 +1762,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="hard-thing">
+    <div class="book" data-book="hard-thing" data-date="2024-02">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=j9ucCwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=j9ucCwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="The Hard Thing About Hard Things by Ben Horowitz" loading="lazy" />
       </div>
       <div class="book-title">The Hard Thing About Hard Things</div>
@@ -1539,9 +1775,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="how-to-win-friends">
+    <div class="book" data-book="how-to-win-friends" data-date="2021-04">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=D7TznQEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=D7TznQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="How to Win Friends and Influence People by Dale Carnegie" loading="lazy" />
       </div>
       <div class="book-title">How to Win Friends and Influence People</div>
@@ -1552,9 +1788,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="winning">
+    <div class="book" data-book="winning" data-date="2022-09">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=g7PG7vwBNYoC&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=g7PG7vwBNYoC&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="Winning by Jack Welch" loading="lazy" />
       </div>
       <div class="book-title">Winning</div>
@@ -1565,9 +1801,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="high-output-management">
+    <div class="book" data-book="high-output-management" data-date="2023-07">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=4G_aCwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=4G_aCwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="High Output Management by Andrew Grove" loading="lazy" />
       </div>
       <div class="book-title">High Output Management</div>
@@ -1578,9 +1814,9 @@
       </div>
     </div>
 
-    <div class="book" data-book="influence">
+    <div class="book" data-book="influence" data-date="2024-01">
       <div class="book-cover-wrap">
-        <img src="https://books.google.com/books/content?id=4uf8DwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+        <img src="https://books.google.com/books/content?id=4uf8DwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
              alt="Influence by Robert Cialdini" loading="lazy" />
       </div>
       <div class="book-title">Influence</div>
@@ -1600,20 +1836,47 @@
 <section id="contact">
   <div class="contact-inner">
     <p class="section-label" style="margin-bottom:1rem">Get in touch</p>
-    <h2>Let's work together</h2>
+    <h2>Let's connect</h2>
     <p class="contact-sub">
-      I'm currently open to full-time roles and interesting freelance
-      projects. Drop me a line — I read every message.
+      Whether it's a shared interest, a big idea, or just a good conversation —
+      drop me a line. I read every message.
     </p>
+
+    <!-- Contact Form — powered by Web3Forms (web3forms.com) -->
+    <!-- Replace YOUR_WEB3FORMS_ACCESS_KEY with the key from web3forms.com -->
+    <form id="contact-form" class="contact-form">
+      <input type="hidden" name="access_key" value="6318c65b-ea03-4391-8b2d-be07038f0e57" />
+      <input type="hidden" name="subject" value="New message from portfolio" />
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="contact-name">Name</label>
+          <input id="contact-name" class="form-input" type="text" name="name" required placeholder="Your name" autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-email">Email</label>
+          <input id="contact-email" class="form-input" type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+        </div>
+      </div>
+      <div class="form-group full">
+        <label class="form-label" for="contact-message">Message</label>
+        <textarea id="contact-message" class="form-textarea" name="message" required rows="5" placeholder="What's on your mind?"></textarea>
+      </div>
+      <div class="form-submit-wrap">
+        <button type="submit" class="btn btn-primary" id="contact-submit">
+          <span id="submit-label">Send message</span>
+        </button>
+      </div>
+      <div id="form-success" class="form-feedback form-success">Message sent — I'll get back to you soon.</div>
+      <div id="form-error" class="form-feedback form-error">Something went wrong. Please try again.</div>
+    </form>
+
     <div class="contact-links">
-      <a href="mailto:james@example.com" class="btn btn-primary">
-        ✉ Send an email
-      </a>
-      <a href="#" class="social-link">
+      <a href="https://github.com/jamesmgorman" target="_blank" rel="noopener" class="social-link">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.37.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.004 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub
       </a>
-      <a href="#" class="social-link">
+      <a href="https://www.linkedin.com/in/jamesmgorman/" target="_blank" rel="noopener" class="social-link">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.44-2.14 2.93v5.68H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
         LinkedIn
       </a>
@@ -1630,6 +1893,33 @@
 </footer>
 
 <script>
+  // Rotating hero words
+  (function () {
+    const container = document.getElementById('rotating-words');
+    if (!container) return;
+    const words = container.querySelectorAll('span');
+    let current = 0;
+    const timer = setInterval(() => {
+      if (current === words.length - 1) {
+        clearInterval(timer);
+        return;
+      }
+      words[current].classList.remove('active');
+      words[current].classList.add('exit');
+      const prev = current;
+      current++;
+      words[current].classList.add('active');
+      setTimeout(() => words[prev].classList.remove('exit'), 600);
+      if (current === words.length - 1) {
+        setTimeout(() => words[current].classList.add('underline-drawn'), 1000);
+      }
+    }, 5000);
+  })();
+
+  // Always start at top on load
+  if (history.scrollRestoration) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
   // Scroll progress bar
   const progress = document.getElementById('progress');
   window.addEventListener('scroll', () => {
@@ -1786,6 +2076,85 @@
   });
 
   panel.querySelector('.book-review-close').addEventListener('click', closePanel);
+
+  // ── CONTACT FORM ──
+  const contactForm = document.getElementById('contact-form');
+  const submitBtn   = document.getElementById('contact-submit');
+  const submitLabel = document.getElementById('submit-label');
+  const formSuccess = document.getElementById('form-success');
+  const formError   = document.getElementById('form-error');
+
+  // Book sorting
+  (function () {
+    const grid = document.querySelector('.books-grid');
+    const sortBtns = document.querySelectorAll('.sort-btn');
+
+    function sortKey(book, mode) {
+      if (mode === 'date') return book.dataset.date;
+      if (mode === 'author') {
+        const parts = book.querySelector('.book-author').textContent.trim().split(/\s+/);
+        return parts[parts.length - 1].toLowerCase();
+      }
+      const raw = book.querySelector('.book-title').textContent.trim();
+      return raw.replace(/^(the|a|an)\s+/i, '').toLowerCase();
+    }
+
+    function applySort(mode) {
+      // Close any open review panel first
+      const openPanel = grid.querySelector('.book-review-panel');
+      if (openPanel) openPanel.remove();
+      document.querySelectorAll('.book.active').forEach(b => b.classList.remove('active'));
+
+      const bookEls = Array.from(grid.querySelectorAll('.book[data-book]'));
+      bookEls.sort((a, b) => {
+        const ka = sortKey(a, mode), kb = sortKey(b, mode);
+        if (mode === 'date') return kb.localeCompare(ka); // descending
+        return ka.localeCompare(kb);                      // ascending alpha
+      });
+      bookEls.forEach(b => grid.appendChild(b));
+    }
+
+    sortBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sortBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applySort(btn.dataset.sort);
+      });
+    });
+
+    // Apply default sort (date desc) on load
+    applySort('date');
+  })();
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitLabel.textContent = 'Sending…';
+    formSuccess.classList.remove('visible');
+    formError.classList.remove('visible');
+
+    const data = Object.fromEntries(new FormData(contactForm));
+
+    try {
+      const res  = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (json.success) {
+        formSuccess.classList.add('visible');
+        contactForm.reset();
+      } else {
+        formError.classList.add('visible');
+      }
+    } catch {
+      formError.classList.add('visible');
+    } finally {
+      submitBtn.disabled = false;
+      submitLabel.textContent = 'Send message';
+    }
+  });
 </script>
 </body>
 </html>
