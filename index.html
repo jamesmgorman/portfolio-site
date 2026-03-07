@@ -721,7 +721,13 @@
       gap: 1.5rem;
     }
 
+    .edu-card-wrap {
+      position: relative;
+    }
+
     .edu-card {
+      position: relative;
+      z-index: 2;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -729,7 +735,35 @@
       transition: border-color 0.2s, transform 0.2s;
     }
 
-    .edu-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .edu-card-wrap:hover .edu-card { border-color: var(--accent); transform: translateY(-2px); }
+
+    .edu-logo {
+      position: absolute;
+      top: 50%;
+      z-index: 1;
+      height: 67px;
+      width: auto;
+      pointer-events: none;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .edu-card-wrap.logo-left .edu-logo {
+      left: 0;
+      transform: translateY(-70%) translateX(0);
+    }
+    .edu-card-wrap.logo-left:hover .edu-logo {
+      transform: translateY(-70%) translateX(-115%);
+    }
+
+    .edu-card-wrap.logo-right .edu-logo {
+      right: 0;
+      transform: translateY(-70%) translateX(0);
+    }
+    .edu-card-wrap.logo-right:hover .edu-logo {
+      transform: translateY(-70%) translateX(115%);
+    }
 
     .edu-degree {
       font-size: 1.1rem;
@@ -1699,32 +1733,44 @@
   <h2 class="section-title">Academic background</h2>
   <div class="edu-grid">
 
-    <div class="edu-card">
-      <div class="edu-degree">Executive Management Certificate</div>
-      <div class="edu-school">Case Western Reserve University</div>
-      <div class="edu-date">April 2023</div>
-      <p class="edu-desc">Leadership and executive management program.</p>
+    <div class="edu-card-wrap logo-left">
+      <div class="edu-card">
+        <div class="edu-degree">Executive Management Certificate</div>
+        <div class="edu-school">Case Western Reserve University</div>
+        <div class="edu-date">April 2023</div>
+        <p class="edu-desc">Leadership and executive management program.</p>
+      </div>
+      <img class="edu-logo" src="logos/CWRU.png" alt="Case Western Reserve University" />
     </div>
 
-    <div class="edu-card">
-      <div class="edu-degree">Lean Six Sigma Black Belt</div>
-      <div class="edu-school">Villanova University</div>
-      <div class="edu-date">June 2016</div>
-      <p class="edu-desc">Master Certificate in process improvement and operational excellence.</p>
+    <div class="edu-card-wrap logo-right">
+      <div class="edu-card">
+        <div class="edu-degree">Lean Six Sigma Black Belt</div>
+        <div class="edu-school">Villanova University</div>
+        <div class="edu-date">June 2016</div>
+        <p class="edu-desc">Master Certificate in process improvement and operational excellence.</p>
+      </div>
+      <img class="edu-logo" src="logos/Villanova_Wildcats_logo.svg.png" alt="Villanova University" style="filter: none;" />
     </div>
 
-    <div class="edu-card">
-      <div class="edu-degree">Master of Business Administration (MBA)</div>
-      <div class="edu-school">University of Phoenix</div>
-      <div class="edu-date">March 2013</div>
-      <p class="edu-desc">Business Management concentration.</p>
+    <div class="edu-card-wrap logo-left">
+      <div class="edu-card">
+        <div class="edu-degree">Master of Business Administration (MBA)</div>
+        <div class="edu-school">University of Phoenix</div>
+        <div class="edu-date">March 2013</div>
+        <p class="edu-desc">Business Management concentration.</p>
+      </div>
+      <img class="edu-logo" src="logos/uopx-phoenixbird-red.png" alt="University of Phoenix" />
     </div>
 
-    <div class="edu-card">
-      <div class="edu-degree">Bachelor of Business Administration (BBA)</div>
-      <div class="edu-school">Ohio University</div>
-      <div class="edu-date">November 2007</div>
-      <p class="edu-desc">Management Information Systems concentration.</p>
+    <div class="edu-card-wrap logo-right">
+      <div class="edu-card">
+        <div class="edu-degree">Bachelor of Business Administration (BBA)</div>
+        <div class="edu-school">Ohio University</div>
+        <div class="edu-date">November 2007</div>
+        <p class="edu-desc">Management Information Systems concentration.</p>
+      </div>
+      <img class="edu-logo" src="logos/Ohio_Bobcats_wordmark.svg.png" alt="Ohio University" style="filter: none;" />
     </div>
 
   </div>
