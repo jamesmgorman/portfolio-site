@@ -30,6 +30,18 @@
       line-height: 1.6;
     }
 
+    /* ── GRADIENT TEXT (shared) ── */
+    .nav-logo,
+    h1 .gradient,
+    .rotating-words span,
+    .stat-num,
+    .testimonial-quote {
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
     /* ── NAV ── */
     nav {
       position: fixed;
@@ -48,10 +60,6 @@
     .nav-logo {
       font-weight: 700;
       font-size: 1.1rem;
-      background: linear-gradient(120deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
       letter-spacing: -0.02em;
     }
 
@@ -61,7 +69,7 @@
       list-style: none;
     }
 
-    .nav-links a {
+    .nav-links a:not(.nav-cta) {
       color: var(--muted);
       text-decoration: none;
       font-size: 0.875rem;
@@ -69,14 +77,14 @@
       transition: color 0.2s;
     }
 
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:not(.nav-cta):hover { color: var(--text); }
 
     .nav-cta {
       background: var(--accent);
-      color: #fff !important;
+      color: #fff;
       padding: 0.4rem 1rem;
       border-radius: 6px;
-      transition: opacity 0.2s !important;
+      transition: opacity 0.2s;
     }
 
     .nav-cta:hover { opacity: 0.85; }
@@ -174,13 +182,6 @@
       margin-bottom: 1.5rem;
     }
 
-    h1 .gradient {
-      background: linear-gradient(120deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
     .rotating-words {
       display: inline-block;
       position: relative;
@@ -204,10 +205,6 @@
       font-weight: inherit;
       letter-spacing: inherit;
       line-height: inherit;
-      background: linear-gradient(120deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
       white-space: nowrap;
     }
 
@@ -316,10 +313,6 @@
       font-size: 2rem;
       font-weight: 800;
       letter-spacing: -0.04em;
-      background: linear-gradient(120deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
@@ -369,6 +362,21 @@
     .info-label { font-size: 0.75rem; color: var(--muted); }
     .info-value { font-weight: 600; font-size: 0.95rem; }
 
+    /* ── SHARED CARD STYLES ── */
+    .skill-group, .project-card, .edu-card, .cert-card {
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .skill-group:hover, .project-card:hover, .edu-card-wrap:hover .edu-card, .cert-card:hover {
+      border-color: var(--accent);
+    }
+
+    .skill-group:hover, .edu-card-wrap:hover .edu-card, .cert-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .project-card:hover { transform: translateY(-3px); }
+
     /* ── SKILLS ── */
     #skills .skills-grid {
       display: grid;
@@ -381,10 +389,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.5rem;
-      transition: border-color 0.2s, transform 0.2s;
     }
-
-    .skill-group:hover { border-color: var(--accent); transform: translateY(-2px); }
 
     .skill-group-title {
       font-size: 0.8rem;
@@ -395,7 +400,7 @@
       margin-bottom: 1rem;
     }
 
-    .skill-tags {
+    .skill-tags, .timeline-tags, .cert-skills {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
@@ -484,8 +489,6 @@
       font-size: 0.95rem;
       margin-bottom: 1rem;
     }
-
-    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
     /* ── RECOMMENDATIONS ── */
     .testimonial-carousel {
@@ -579,10 +582,6 @@
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 4rem;
       line-height: 1;
-      background: linear-gradient(120deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
       margin-bottom: 0;
       display: block;
     }
@@ -661,12 +660,9 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
       display: flex;
       flex-direction: column;
     }
-
-    .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
 
     .project-header {
       padding: 1.5rem 1.5rem 0;
@@ -732,10 +728,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.75rem;
-      transition: border-color 0.2s, transform 0.2s;
     }
-
-    .edu-card-wrap:hover .edu-card { border-color: var(--accent); transform: translateY(-2px); }
 
     .edu-logo {
       position: absolute;
@@ -793,10 +786,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.5rem;
-      transition: border-color 0.2s, transform 0.2s;
     }
-
-    .cert-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 
     .cert-main {
       display: grid;
@@ -833,9 +823,6 @@
     .cert-skills {
       padding-top: 1rem;
       border-top: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
     }
 
     @media (max-width: 640px) {
@@ -1232,10 +1219,12 @@
       position: fixed;
       top: 0;
       left: 0;
+      width: 100%;
       height: 2px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       z-index: 200;
-      transition: width 0.1s;
+      transform: scaleX(0);
+      transform-origin: left;
     }
 
     /* ── RESPONSIVE ── */
@@ -2343,9 +2332,15 @@
 
   // Scroll progress bar
   const progress = document.getElementById('progress');
+  let rafPending = false;
   window.addEventListener('scroll', () => {
-    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-    progress.style.width = (pct * 100) + '%';
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      progress.style.transform = `scaleX(${pct})`;
+      rafPending = false;
+    });
   });
 
   // Intersection observer — fade in sections
@@ -2354,6 +2349,10 @@
       if (e.isIntersecting) {
         e.target.style.opacity = '1';
         e.target.style.transform = 'translateY(0)';
+        observer.unobserve(e.target);
+        e.target.addEventListener('transitionend', () => {
+          e.target.removeAttribute('style');
+        }, { once: true });
       }
     }),
     { threshold: 0.1 }
@@ -2480,7 +2479,9 @@
     panel.classList.remove('open');
     books.forEach(b => b.classList.remove('active'));
     activeBook = null;
-    setTimeout(() => { if (panel.parentNode) panel.parentNode.removeChild(panel); }, 400);
+    panel.addEventListener('transitionend', () => {
+      if (panel.parentNode) panel.parentNode.removeChild(panel);
+    }, { once: true });
   }
 
   books.forEach(book => {
@@ -2522,8 +2523,8 @@
 
     function applySort(mode) {
       // Close any open review panel first
-      const openPanel = grid.querySelector('.book-review-panel');
-      if (openPanel) openPanel.remove();
+      const existingPanel = grid.querySelector('.book-review-panel');
+      if (existingPanel) { existingPanel.remove(); activeBook = null; }
       document.querySelectorAll('.book.active').forEach(b => b.classList.remove('active'));
 
       const bookEls = Array.from(grid.querySelectorAll('.book[data-book]'));
